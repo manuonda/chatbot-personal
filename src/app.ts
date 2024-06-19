@@ -2,6 +2,8 @@ import { join } from 'path'
 import { createBot, createProvider, createFlow, addKeyword, utils } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
+import { flowWelcome } from './flow/welcome'
+import { flowMenu } from './flow/menu'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -19,33 +21,33 @@ const discordFlow = addKeyword<Provider, Database>('doc').addAnswer(
     }
 )
 
-const welcomeFlow = addKeyword<Provider, Database>(['hi', 'hello', 'hola'])
-    .addAnswer(`🙌 Hello welcome to this *Chatbot*`)
-    .addAnswer(
-        [
-            'I share with you the following links of interest about the project',
-            '👉 *doc* to view the documentation',
-        ].join('\n'),
-        { delay: 800, capture: true },
-        async (ctx, { fallBack }) => {
-            if (!ctx.body.toLocaleLowerCase().includes('doc')) {
-                return fallBack('You should type *doc*')
-            }
-            return
-        },
-        [discordFlow]
-    )
+// const welcomeFlow = addKeyword<Provider, Database>(['hi', 'hello', 'hola'])
+//     .addAnswer(`🙌 Hello welcome to this *Chatbot*`)
+//     .addAnswer(
+//         [
+//             'I share with you the following links of interest about the project',
+//             '👉 *doc* to view the documentation',
+//         ].join('\n'),
+//         { delay: 800, capture: true },
+//         async (ctx, { fallBack }) => {
+//             if (!ctx.body.toLocaleLowerCase().includes('doc')) {
+//                 return fallBack('You should type *doc*')
+//             }
+//             return
+//         },
+//         [discordFlow]
+//     )
 
-const registerFlow = addKeyword<Provider, Database>(utils.setEvent('REGISTER_FLOW'))
-    .addAnswer(`What is your name?`, { capture: true }, async (ctx, { state }) => {
-        await state.update({ name: ctx.body })
-    })
-    .addAnswer('What is your age?', { capture: true }, async (ctx, { state }) => {
-        await state.update({ age: ctx.body })
-    })
-    .addAction(async (_, { flowDynamic, state }) => {
-        await flowDynamic(`${state.get('name')}, thanks for your information!: Your age: ${state.get('age')}`)
-    })
+// const registerFlow = addKeyword<Provider, Database>(utils.setEvent('REGISTER_FLOW'))
+//     .addAnswer(`What is your name?`, { capture: true }, async (ctx, { state }) => {
+//         await state.update({ name: ctx.body })
+//     })
+//     .addAnswer('What is your age?', { capture: true }, async (ctx, { state }) => {
+//         await state.update({ age: ctx.body })
+//     })
+//     .addAction(async (_, { flowDynamic, state }) => {
+//         await flowDynamic(`${state.get('name')}, thanks for your information!: Your age: ${state.get('age')}`)
+//     })
 
 const fullSamplesFlow = addKeyword<Provider, Database>(['samples', utils.setEvent('SAMPLES')])
     .addAnswer(`💪 I'll send you a lot files...`)
@@ -59,7 +61,7 @@ const fullSamplesFlow = addKeyword<Provider, Database>(['samples', utils.setEven
     })
 
 const main = async () => {
-    const adapterFlow = createFlow([welcomeFlow, registerFlow, fullSamplesFlow])
+    const adapterFlow = createFlow([flowWelcome , flowMenu])
     
     const adapterProvider = createProvider(Provider)
     const adapterDB = new Database()
