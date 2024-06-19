@@ -4,6 +4,7 @@ import { MemoryDB as Database } from '@builderbot/bot'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { flowWelcome } from './flow/welcome'
 import { flowMenu } from './flow/menu'
+import { flowRecordatorio } from './flow/recordatorio'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -61,7 +62,7 @@ const PORT = process.env.PORT ?? 3008
 //     })
 
 const main = async () => {
-    const adapterFlow = createFlow([flowWelcome])
+    const adapterFlow = createFlow([flowWelcome, flowMenu, flowRecordatorio])
     
     const adapterProvider = createProvider(Provider)
     const adapterDB = new Database()

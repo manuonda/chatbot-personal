@@ -1,9 +1,10 @@
 import { addKeyword } from "@builderbot/bot";
+import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { flowRecordatorio } from "./recordatorio"; // Importa todos los flujos del directorio `flow`
 
 
 
-export const flowMenu = addKeyword(['menu', 'me'])
+export const flowMenu = addKeyword<Provider>(['menu', 'me'])
 .addAnswer([
   '📋 *Menú de opciones*:',
   '0️⃣ - 📅 Recordatorios',
