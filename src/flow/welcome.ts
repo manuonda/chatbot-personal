@@ -1,6 +1,8 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { flowMenu } from "./menu";
+import { getByTelephone } from "~/services/usuarioService";
+
 
 
 export const flowWelcome = addKeyword<Provider>(['hola'])
@@ -16,7 +18,10 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
           if(!onWhats[0]?.exists){
                await ctxFn.flowDynamic(`Not Exists: ${onWhats[0].exists}`)
           } 
-
+         
+          const information = getByTelephone(checkNumber);
+            
+ 
           if(ctx.body.toLocaleLowerCase().includes('menu')){
                return ctxFn.gotoFlow(flowMenu);
           } 
