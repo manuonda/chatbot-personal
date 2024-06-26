@@ -2,11 +2,11 @@ import supabase from "~/database/supabase"
 
 
 export const addReminder = async (title, description, reminderDate) => {
-      try {
+      // try {
+      //      const {data,error}  =  await supabase.
+      // } catch (error) {
         
-      } catch (error) {
-        
-      }    
+      // }    
 }
 
 

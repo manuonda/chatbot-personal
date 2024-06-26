@@ -1,7 +1,7 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { flowMenu } from "./menu";
-import { getByTelephone } from "~/services/usuarioService";
+import { getByTelephone } from "~/services/userService";
 
 
 
@@ -17,9 +17,16 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
           const onWhats = await  ctxFn.provider.vendor.onWhatsApp(checkNumber);
           if(!onWhats[0]?.exists){
                await ctxFn.flowDynamic(`Not Exists: ${onWhats[0].exists}`)
+          } else {
+             //aqui le consulto para crear un registro al usuario   
+             console.log("Existe el usuario");
+             //verifico si existe en la base de datos para crearl
           } 
          
-          const information = getByTelephone(checkNumber);
+          const usuarioByTelephone = await getByTelephone(checkNumber);
+          if ( usuarioByTelephone && usuarioByTelephone.length === 0) {
+
+          }
             
  
           if(ctx.body.toLocaleLowerCase().includes('menu')){
