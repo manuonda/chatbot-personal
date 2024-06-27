@@ -2,6 +2,7 @@ import { EVENTS, addKeyword } from "@builderbot/bot";
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import { flowMenu } from "./menu";
 import { getByTelephone } from "~/services/userService";
+import { flowRegister } from "./register";
 
 
 
@@ -24,10 +25,9 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
           } 
          
           const usuarioByTelephone = await getByTelephone(checkNumber);
-          if ( usuarioByTelephone && usuarioByTelephone.length === 0) {
-
+          if(usuarioByTelephone === undefined || usuarioByTelephone.length === 0){
+               return ctxFn.gotoFlow(flowRegister);
           }
-            
  
           if(ctx.body.toLocaleLowerCase().includes('menu')){
                return ctxFn.gotoFlow(flowMenu);
