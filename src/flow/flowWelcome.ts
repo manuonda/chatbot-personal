@@ -1,12 +1,21 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
-import { flowMenu } from "./menu";
-import { getByTelephone } from "~/services/userService";
-import { flowRegister } from "./register";
+import { flowMenu } from "./flowMenu";
+import { existUsuarioByTelefono } from "~/services/usuarioService";
+import { flowRegister } from "./flowRegister";
 
 
 
 export const flowWelcome = addKeyword<Provider>(['hola'])
+.addAction(async (_, { flowDynamic }): Promise<void> => {
+     console.log("informationc:");
+     return flowDynamic('Hi! how can I help you?');
+ })
+ .addAction({ capture: true }, async (ctx, { flowDynamic, state }): Promise<void> => {
+     console.log("information numero 2");
+     await state.update({ name: ctx.body})
+     return flowDynamic(`The user said: ${ctx.body}`);
+ })
 .addAnswer( 
      ['Bienvenido to Boot Personal. Lo cual podras realizar varias acciones' , 
       'Escribe *menu* para ver las opciones'
@@ -24,10 +33,13 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
              //verifico si existe en la base de datos para crearl
           } 
          
-          const usuarioByTelephone = await getByTelephone(checkNumber);
-          if(usuarioByTelephone === undefined || usuarioByTelephone.length === 0){
-               return ctxFn.gotoFlow(flowRegister);
+          const existUsuario = await existUsuarioByTelefono(checkNumber);
+          console.log("existUsuarioByTelefono : " , existUsuario)
+          debugger;
+          if (!existUsuario){
+              return ctxFn.gotoFlow(flowRegister);
           }
+          
  
           if(ctx.body.toLocaleLowerCase().includes('menu')){
                return ctxFn.gotoFlow(flowMenu);

@@ -2,10 +2,10 @@ import { join } from 'path'
 import { createBot, createProvider, createFlow, addKeyword, utils } from '@builderbot/bot'
 import { MemoryDB as Database } from '@builderbot/bot'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
-import { flowWelcome } from './flow/welcome'
-import { flowMenu } from './flow/menu'
-import { flowRecordatorio } from './flow/recordatorio'
-import { flowRegister } from './flow/register'
+import { flowWelcome } from './flow/flowWelcome'
+import { flowMenu } from './flow/flowMenu'
+import { flowRecordatorio } from './flow/flowRecordatorio'
+import { flowRegister } from './flow/flowRegister'
 
 const PORT = process.env.PORT ?? 3008
 

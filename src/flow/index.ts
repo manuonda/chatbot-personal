@@ -1,2 +1,2 @@
-import { flowRecordatorio } from "./recordatorio";
+import { flowRecordatorio } from "./flowRecordatorio";
 

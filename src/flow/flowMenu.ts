@@ -1,6 +1,6 @@
 import { addKeyword } from "@builderbot/bot";
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
-import { flowRecordatorio } from "./recordatorio"; // Importa todos los flujos del directorio `flow`
+import { flowRecordatorio } from "./flowRecordatorio"; // Importa todos los flujos del directorio `flow`
 
 
 
