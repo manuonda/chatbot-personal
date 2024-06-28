@@ -10,8 +10,8 @@ const existUsuarioByTelefono = async (telephone) => {
       .select()
       .eq('telephone', telephone);
     console.log("information : ", data, error);
-    let usuarios = convertToUsuarioData(data);
-    let existUsuario = usuarios.length > 0 ? true : false;
+    const usuarios = convertToUsuarioData(data);
+    const existUsuario = usuarios.length > 0 ? true : false;
     return existUsuario;
   } catch (error) {
     console.error(`Error get usuario: ${error}`)
@@ -32,7 +32,7 @@ const getUsuarioByTelephone = async (telephone) => {
       .select()
       .eq('telephone', telephone);
     console.log("information : ", data, error);
-    let usuarios =  convertToUsuarioData(data);
+    const usuarios =  convertToUsuarioData(data);
     if(usuarios.length > 0 ){
       return usuarios[0];
     }
@@ -55,7 +55,7 @@ const addUsuario = async (usuario: Usuario) => {
       .insert({ first_name: usuario.first_name, last_name: usuario.last_name, telephone: usuario.telephone, created_at: new Date().toISOString() })
       .select();
     console.log("insert registros : ", data, error);
-    let usuarios: Usuario[] = convertToUsuarioData(data);
+    const usuarios: Usuario[] = convertToUsuarioData(data);
     return usuarios;
   } catch (error) {
     console.error(`Èrror guardar usuario :${error}`)

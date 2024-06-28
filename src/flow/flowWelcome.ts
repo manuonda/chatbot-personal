@@ -7,11 +7,22 @@ import { flowRegister } from "./flowRegister";
 
 
 export const flowWelcome = addKeyword<Provider>(['hola'])
-.addAction(async (_, { flowDynamic }): Promise<void> => {
-     console.log("informationc:");
-     return flowDynamic('Hi! how can I help you?');
- })
- .addAction({ capture: true }, async (ctx, { flowDynamic, state }): Promise<void> => {
+// .addAction(async (_, { flowDynamic }): Promise<void> => {
+//      console.log("informationc:");
+//      return flowDynamic('Hi! how can I help you?');
+//  })
+ .addAction({ capture: true }, async (ctx, {provider, flowDynamic, state }): Promise<void> => {
+     const checkNumber = ctx.from;
+     const onWhats = await provider.vendor.onWhatsApp(checkNumber);
+     const existUsuario = await existUsuarioByTelefono(checkNumber);
+    
+     if(!onWhats[0]?.exists){
+          await ctxFn.flowDynamic(`Not Exists: ${onWhats[0].exists}`)
+     } else {
+        //aqui le consulto para crear un registro al usuario   
+        console.log("Existe el usuario");
+        //verifico si existe en la base de datos para crearl
+     } 
      console.log("information numero 2");
      await state.update({ name: ctx.body})
      return flowDynamic(`The user said: ${ctx.body}`);
@@ -35,7 +46,6 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
          
           const existUsuario = await existUsuarioByTelefono(checkNumber);
           console.log("existUsuarioByTelefono : " , existUsuario)
-          debugger;
           if (!existUsuario){
               return ctxFn.gotoFlow(flowRegister);
           }

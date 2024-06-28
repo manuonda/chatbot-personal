@@ -15,7 +15,7 @@ async (ctx, ctxFn) => {
   if (ctx.body == "") {
     ctxFn.fallBack("Debes ingresar tu nombre");
   }else {
-    let usuario:Usuario = {
+    const usuario:Usuario = {
         first_name: ctx.body,
         last_name: ctx.body,
         telephone: ctx.from       
