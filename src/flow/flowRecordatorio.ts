@@ -5,12 +5,12 @@ export const flowRecordatorio = addKeyword(EVENTS.ACTION)
 .addAnswer([
   '🔔 **Recordatorios**',
   'Puedes realizar varias acciones:',
-  '1️⃣ - Listar Recordatorio',
-  '2️⃣ - Agregar Recordatorio',
+  '1️⃣ - Agregar Recordatorio',
+  '2️⃣ - Listar Recordatorio',
   '3️⃣ - Eliminar Recordatorio',
   '',
   'Ejemplo: escribir o grabar un audio con:',
-  '➡️ "Agregar Recordatorio ver temporada Doctor House"'
+  '➡️ "Agregar Recordatorio o nota ver temporada Doctor House el miercoles avisarme 5 minutos antes"'
 ].join('\n'),
 { delay: 800, capture: true },
 async (ctx, ctxFn) => {
@@ -18,4 +18,6 @@ async (ctx, ctxFn) => {
   if (!ctx.body.toLowerCase().includes('agregar')) {
     ctxFn.fallBack("Debes ingresar el ejemplo, o escribir *menu* para volver al inicio");
   }
+
+
 });

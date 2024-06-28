@@ -6,14 +6,18 @@ import { flowRegister } from "./flowRegister";
 
 
 
-export const flowWelcome = addKeyword<Provider>(EVENTS.WELCOME)
- .addAction({ capture: true }, async (ctx, {provider, flowDynamic, state, gotoFlow }): Promise<void> => {
+export const flowWelcome = addKeyword<Provider>(['hola'])
+ .addAction( async (ctx, {provider, flowDynamic, state, gotoFlow }): Promise<void> => {
      const checkNumber = ctx.from;
      const onWhats = await provider.vendor.onWhatsApp(checkNumber);
      const existUsuarioDB = await existUsuarioByTelefono(checkNumber);
+     const existUsuarioWspWeb = onWhats[0]?.exists;
     
+     console.log("informacion que onda");
+     console.log("existe usuario de base de datos : ", existUsuarioDB);
+     console.log("existe usuario de wsp web: ", existUsuarioWspWeb);
      if(!existUsuarioDB){
-         if(!onWhats[0]?.exists){
+         if(!existUsuarioWspWeb){
              return gotoFlow(flowRegister);
          } else {
             await addUsuario({
@@ -26,20 +30,11 @@ export const flowWelcome = addKeyword<Provider>(EVENTS.WELCOME)
           // TODO if exist usuario in wsp puedo actualizar el usuario 
           // en la base de datos
           const usuario = await getUsuarioByTelephone(ctx.from);
-          await state.update({ name: usuario.first_name , telephone: ctx.from });   
-          return gotoFlow(flowMenu);
+          await state.update({ name: usuario.first_name , telephone: ctx.from , user_session:usuario});   
+          await flowDynamic(`Hola ${usuario.first_name}.`);
+          //return gotoFlow(flowMenu);
      }
-     /*if(!onWhats[0]?.exists){
-          await ctxFn.flowDynamic(`Not Exists: ${onWhats[0].exists}`)
-     } else {
-        //aqui le consulto para crear un registro al usuario   
-        console.log("Existe el usuario");
-        //verifico si existe en la base de datos para crearl
-     } 
-        */
-     console.log("information numero 2");
-     await state.update({ name: ctx.body})
-     return flowDynamic(`The user said: ${ctx.body}`);
+    
  })
 .addAnswer( 
      ['Bienvenido to Boot Personal. Lo cual podras realizar varias acciones' , 

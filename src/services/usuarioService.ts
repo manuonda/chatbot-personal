@@ -9,7 +9,6 @@ const existUsuarioByTelefono = async (telephone) => {
       .from(table)
       .select()
       .eq('telephone', telephone);
-    console.log("information : ", data, error);
     const usuarios = convertToUsuarioData(data);
     const existUsuario = usuarios.length > 0 ? true : false;
     return existUsuario;
@@ -31,7 +30,6 @@ const getUsuarioByTelephone = async (telephone) => {
       .from(table)
       .select()
       .eq('telephone', telephone);
-    console.log("information : ", data, error);
     const usuarios =  convertToUsuarioData(data);
     if(usuarios.length > 0 ){
       return usuarios[0];
@@ -54,7 +52,6 @@ const addUsuario = async (usuario: Usuario) => {
       .from(table)
       .insert({ first_name: usuario.first_name, last_name: usuario.last_name, telephone: usuario.telephone, created_at: new Date().toISOString() })
       .select();
-    console.log("insert registros : ", data, error);
     const usuarios: Usuario[] = convertToUsuarioData(data);
     return usuarios;
   } catch (error) {
