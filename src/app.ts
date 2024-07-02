@@ -7,6 +7,7 @@ import { flowMenu } from './flow/flowMenu'
 import { flowRecordatorio } from './flow/flowRecordatorio'
 import { flowRegister } from './flow/flowRegister'
 import { flowInformacion } from './flow/flowInformation'
+import { flowMoreExamples } from './flow/flowMoreExamples'
 
 const PORT = process.env.PORT ?? 3008
 
@@ -64,7 +65,9 @@ const PORT = process.env.PORT ?? 3008
 //     })
 
 const main = async () => {
-    const adapterFlow = createFlow([flowWelcome, flowMenu, flowRecordatorio, flowRegister, flowInformacion])
+    const adapterFlow = createFlow([flowWelcome, 
+        flowMenu, flowRecordatorio, flowRegister, 
+        flowInformacion,flowMoreExamples])
     
     const adapterProvider = createProvider(Provider)
     const adapterDB = new Database()

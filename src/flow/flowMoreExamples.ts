@@ -1,32 +1,19 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
+import { flowMenu } from "./flowMenu";
+import { flowRecordatorio } from "./flowRecordatorio";
 
 
-export const flowRecordatorio = addKeyword(EVENTS.ACTION)
-.addAnswer([
-  '🔔 **Recordatorios**',
-  'Puedes realizar varias acciones:',
-  '1️⃣ - Agregar Recordatorio',
-  '2️⃣ - Listar Recordatorio',
-  '3️⃣ - Eliminar Recordatorio',
-  '[4 - Màs ejemplos',
-  '',
-  'Para agregar un recordatorio, escribe o graba un audio con:',
- '➡️ Agregar recordatorio: ver temporada de Doctor House el miércoles. Avisarme 5 minutos antes.'
-].join('\n'),
-{ delay: 800, capture: true },
-async (ctx, ctxFn) => {
-  console.log('Body recordatorio ===> ', ctx);
-  if (!ctx.body.toLowerCase().includes('agregar')) {
-    ctxFn.fallBack("Debes ingresar el ejemplo, o escribir *menu* para volver al inicio");
+export const flowMoreExamples = addKeyword(EVENTS.ACTION)
+  .addAnswer([
+    '🔔 Más ejemplos:',
+    '🔹 "Agregar recordatorio: cita con el doctor el 23 de junio a las 15:00. Avisarme 1 día antes."',
+    '🔹 "Agregar recordatorio: reunión de equipo el viernes a las 10:00. Avisarme 30 minutos antes."',
+    '🔹 "Agregar recordatorio: comprar flores para el aniversario el lunes a las 18:00. Avisarme 1 hora antes."',
+    '🔹 "Agregar recordatorio: tomar la medicina todos los días a las 9:00 AM. Avisarme 5 minutos antes."',
+    '🔹 "Agregar recordatorio: llevar a mi hijo al examen de ojos el jueves a las 11:00. Avisarme 1 hora antes."'
+  ].join('\n'), 
+  { delay: 800 },
+  async (ctx, ctxFn) => {
+     ctxFn.gotoFlow(flowRecordatorio); 
   }
-
-  if(['0','1','2','3'].includes(ctx.body)){
-      switch(ctx.body){
-        // Todo mas ejemplos:
-        case '4': return ctxFn.gotoFlow()
-      }
-  }
-
-
-
-});
+);

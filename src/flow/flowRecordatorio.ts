@@ -1,4 +1,6 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
+import { flowMoreExamples } from "./flowMoreExamples";
+import { readPromptConsultas } from "~/services/fileService";
 
 
 export const flowRecordatorio = addKeyword(EVENTS.ACTION)
@@ -15,17 +17,27 @@ export const flowRecordatorio = addKeyword(EVENTS.ACTION)
 ].join('\n'),
 { delay: 800, capture: true },
 async (ctx, ctxFn) => {
-  console.log('Body recordatorio ===> ', ctx);
+  
+  if(['0','1','2','3','4'].includes(ctx.body)){
+      switch(ctx.body){
+        // Todo mas ejemplos:
+        case '4': return ctxFn.gotoFlow(flowMoreExamples)
+      }
+  }
+
+
   if (!ctx.body.toLowerCase().includes('agregar')) {
     ctxFn.fallBack("Debes ingresar el ejemplo, o escribir *menu* para volver al inicio");
   }
+  
+  try {
+    const template = readPromptConsultas();
+    console.log(template);
 
-  if(['0','1','2','3'].includes(ctx.body)){
-      switch(ctx.body){
-        // Todo mas ejemplos:
-        case '4': return ctxFn.gotoFlow()
-      }
+  } catch (error) {
+    console.error(`Error template `)
   }
+
 
 
 

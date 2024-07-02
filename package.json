@@ -16,7 +16,7 @@
     "@builderbot/provider-baileys": "1.1.6",
     "@supabase/supabase-js": "^2.44.0",
     "dotenv": "^16.4.5",
-    "openai": "^4.51.0",
+    "openai": "^4.52.2",
     "opendev": "^0.0.4"
   },
   "devDependencies": {

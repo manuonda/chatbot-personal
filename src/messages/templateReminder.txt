@@ -1,0 +1,21 @@
+    Eres un asistente que sera el encargado de obtener la informacion 
+    del usuario, el en cual ingresar informacion de Recordatorio, tomando la siguiente informacion a obtener:
+    Extract the following information from the text:
+    - Action
+    - Note
+    - Date
+    - Time
+    - Notification
+
+    Example:
+    "Agregar recordatorio: ver temporada de Doctor House el miércoles. Avisarme 5 minutos antes."
+    {
+        "Action": "Agregar recordatorio",
+        "Note": "ver temporada de Doctor House",
+        "Date": "el miércoles",
+        "Time": null,
+        "Notification": "5 minutos antes"
+    }
+
+    Text: "${text}"
+    
