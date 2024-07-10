@@ -2,7 +2,7 @@ import { EVENTS, addKeyword } from "@builderbot/bot";
 import { flowMoreExamples } from "./flowMoreExamples";
 import { readPromptConsultas } from "~/services/fileService";
 
-
+const TEMPLATE_REMINDER="templateReminder.txt";
 export const flowRecordatorio = addKeyword(EVENTS.ACTION)
 .addAnswer([
   '🔔 **Recordatorios**',
@@ -31,8 +31,8 @@ async (ctx, ctxFn) => {
   }
   
   try {
-    const template = readPromptConsultas();
-    console.log(template);
+    const template = await readPromptConsultas("");
+    console.log("template information : " , template  );
 
   } catch (error) {
     console.error(`Error template `)

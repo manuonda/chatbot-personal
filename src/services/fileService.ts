@@ -7,13 +7,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function readPromptConsultas() {
-    console.log(__dirname);
-    try {
-        const promptConsultas = await fs.readFileSync("./messages/templateReminder.txt");
-        console.log(promptConsultas);
+async function readPromptConsultas(nombreFile) {
+     try {
+        const filePath = path.join(__dirname, '../messages/templateReminder.txt');
+        const promptConsultas = await fs.readFileSync(filePath, 'utf-8');
+        return promptConsultas;
     } catch (err) {
         console.error('Error reading file:', err);
+        throw new Error(err)
     }
 }
 
