@@ -1,8 +1,13 @@
 import { EVENTS, addKeyword } from "@builderbot/bot";
 import { flowMoreExamples } from "./flowMoreExamples";
 import { readPromptConsultas } from "~/services/fileService";
+import { addReminder } from "~/services/reminderService";
+
+import { chat } from '../provider/openai'
+import * as gpt3Encoder  from 'gpt-3-encoder'
 
 const TEMPLATE_REMINDER="templateReminder.txt";
+
 export const flowRecordatorio = addKeyword(EVENTS.ACTION)
 .addAnswer([
   '🔔 **Recordatorios**',
@@ -31,8 +36,19 @@ async (ctx, ctxFn) => {
   }
   
   try {
-    const template = await readPromptConsultas("");
-    console.log("template information : " , template  );
+    const content = ctx.body.toLowerCase();
+    const promptTemplate = await readPromptConsultas("");
+    const resultado = await chat(promptTemplate, content);  
+    const fullPrompt = promptTemplate.replace("${text}", content);
+    const user_session = ctxFn.state.get('user_session');
+    console.log('user_session : ',user_session);
+    //await addReminder(resultado, );
+
+    //calculate numero de tokens
+    const tokens = gpt3Encoder.encode(fullPrompt);
+    console.log("Tokens : ", tokens.length);
+
+    console.log("resultado : " , resultado);
 
   } catch (error) {
     console.error(`Error template `)

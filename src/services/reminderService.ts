@@ -1,5 +1,6 @@
 import supabase from "~/database/supabase"
-import { Usuario } from "~/models/usuario";
+import { ESTADOS } from "~/models/models";
+import { Reminder, Usuario } from "~/models/models";
 
 const table = "recordatorios";
 
@@ -44,13 +45,15 @@ const getUsuarioByTelephone = async (telephone) => {
 
 
 
-const addReminder = async (usuario: Usuario) => {
+const addReminder = async (reminder :Reminder, usuarioId: number) => {
 
-  console.log("addUsuario usuario => ", usuario);
+  console.log("addReminder => ", reminder);
   try {
     const { data, error } = await supabase
       .from(table)
-      .insert({ first_name: usuario.first_name, last_name: usuario.last_name, telephone: usuario.telephone, created_at: new Date().toISOString() })
+      .insert({ title: reminder.title, 
+                usuario_id: usuarioId, status: ESTADOS.PENDING,
+                created_at: new Date().toISOString() })
       .select();
     const usuarios: Usuario[] = convertToUsuarioData(data);
     return usuarios;
@@ -75,4 +78,4 @@ const convertToUsuarioData = (data: any[]): Usuario[] => {
 
 
 
-export { existUsuarioByTelefono, addUsuario , getUsuarioByTelephone}
+export { existUsuarioByTelefono, addReminder , getUsuarioByTelephone}

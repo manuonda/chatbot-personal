@@ -6,7 +6,7 @@ import { promises as fs } from 'fs';
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const model = process.env.OPENAI_MODEL;
 
-const chat = async (prompt, messages) => {
+export const chat = async (prompt, messages) => {
     try {
         const openai = new OpenAI({
             apiKey:openaiApiKey
@@ -17,11 +17,13 @@ const chat = async (prompt, messages) => {
             model: model,
             messages:[
                 { role: "system" , content:prompt},
-                ...messages
+                { role: "user", content:  messages}
+                
             ]
         });
 
-     
+        
+        //console.log(completion);
         const answ = completion.choices[0].message.content;
         return answ;
         
@@ -32,6 +34,6 @@ const chat = async (prompt, messages) => {
 
 };
 
-module.exports = { chat }; 
+
 
 

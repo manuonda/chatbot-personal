@@ -58,8 +58,7 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
           if (!existUsuario){
               return ctxFn.gotoFlow(flowRegister);
           }
-          
- 
+       
           if(ctx.body.toLocaleLowerCase().includes('menu')){
                return ctxFn.gotoFlow(flowMenu);
           } 
