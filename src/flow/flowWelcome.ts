@@ -13,9 +13,9 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
      const existUsuarioDB = await existUsuarioByTelefono(checkNumber);
      const existUsuarioWspWeb = onWhats[0]?.exists;
     
-     console.log("informacion que onda");
-     console.log("existe usuario de base de datos : ", existUsuarioDB);
-     console.log("existe usuario de wsp web: ", existUsuarioWspWeb);
+    //  console.log("informacion que onda");
+    //  console.log("existe usuario de base de datos : ", existUsuarioDB);
+    //  console.log("existe usuario de wsp web: ", existUsuarioWspWeb);
      if(!existUsuarioDB){
          if(!existUsuarioWspWeb){
              return gotoFlow(flowRegister);
@@ -54,7 +54,6 @@ export const flowWelcome = addKeyword<Provider>(['hola'])
           } 
          
           const existUsuario = await existUsuarioByTelefono(checkNumber);
-          console.log("existUsuarioByTelefono : " , existUsuario)
           if (!existUsuario){
               return ctxFn.gotoFlow(flowRegister);
           }

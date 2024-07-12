@@ -15,14 +15,12 @@ export const flowMenu = addKeyword<Provider>(['menu', 'me'])
 ].join('\n'),
 { capture: true },
 async (ctx, ctxFn) => {
-    console.log("aqui ingreso : " , ctx);
   if (!["0", "1", "2"].includes(ctx.body)) {
     return ctxFn.fallBack("Respuesta no válida, selecciona una opción o vuelve al *menu*");
   }
 
 
 
-  console.log("flowMenu : " + ctx.body);
 
   switch (ctx.body) {
     case "0": return ctxFn.gotoFlow(flowRecordatorio);

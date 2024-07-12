@@ -1,5 +1,5 @@
 import supabase from "~/database/supabase"
-import { Usuario } from "~/models/usuario";
+import { Usuario } from "~/models/models";
 
 const table = "usuario";
 
@@ -24,7 +24,7 @@ const existUsuarioByTelefono = async (telephone) => {
  * @param telephone 
  * @returns 
  */
-const getUsuarioByTelephone = async (telephone) => {
+const getUsuarioByTelephone = async (telephone): Promise<Usuario> => {
   try {
     const { data, error } = await supabase
       .from(table)

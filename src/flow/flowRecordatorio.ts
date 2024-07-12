@@ -5,6 +5,7 @@ import { addReminder } from "~/services/reminderService";
 
 import { chat } from '../provider/openai'
 import * as gpt3Encoder  from 'gpt-3-encoder'
+import { getUsuarioByTelephone } from "~/services/usuarioService";
 
 const TEMPLATE_REMINDER="templateReminder.txt";
 
@@ -22,7 +23,7 @@ export const flowRecordatorio = addKeyword(EVENTS.ACTION)
 ].join('\n'),
 { delay: 800, capture: true },
 async (ctx, ctxFn) => {
-  
+  const checkNumber = ctx.from;
   if(['0','1','2','3','4'].includes(ctx.body)){
       switch(ctx.body){
         // Todo mas ejemplos:
@@ -41,13 +42,20 @@ async (ctx, ctxFn) => {
     const resultado = await chat(promptTemplate, content);  
     const fullPrompt = promptTemplate.replace("${text}", content);
     const user_session = ctxFn.state.get('user_session');
-    console.log('user_session : ',user_session);
-    //await addReminder(resultado, );
+    let idUsuario = null
+    if (user_session != null && user_session !== undefined){
+        idUsuario = user_session['id'];
+    } else {
+       const usuario = await getUsuarioByTelephone(checkNumber);
+       console.log(`Usuario obtenido :${usuario.id}`);
+       idUsuario = usuario.id;
+    }
+    const resultadoReminder = JSON.parse(resultado);
+    await addReminder(resultadoReminder, idUsuario );
 
     //calculate numero de tokens
     const tokens = gpt3Encoder.encode(fullPrompt);
     console.log("Tokens : ", tokens.length);
-
     console.log("resultado : " , resultado);
 
   } catch (error) {

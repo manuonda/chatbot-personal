@@ -21,9 +21,6 @@ export const chat = async (prompt, messages) => {
                 
             ]
         });
-
-        
-        //console.log(completion);
         const answ = completion.choices[0].message.content;
         return answ;
         
